@@ -10,8 +10,10 @@
 PlayScene::PlayScene()
 {
 	PlayScene::start();
-	TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
-	TextureManager::Instance()->draw("S_bgp", 0, 0, 0, 255, false);//not sure why its not working
+	//TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
+	//TextureManager::Instance()->draw("S_bgp", 0, 0, 0, 255, false);//not sure why its not working
+	TextureManager::Instance()->load("../Assets/textures/s_bgp.png", "S_bgp");
+	auto size = TextureManager::Instance()->getTextureSize("S_bgp");
 	SoundManager::Instance().load("../Assets/audio/Bgm_2.mp3", "Bgm_2", SOUND_MUSIC);
 	SoundManager::Instance().load("../Assets/audio/died.wav", "Died", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/win.wav", "Win", SOUND_SFX);

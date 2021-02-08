@@ -6,8 +6,8 @@
 
 StartScene::StartScene()
 {
-	TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
-	TextureManager::Instance()->draw("S_bgp", 0, 0, 0, 255, false);//not sure why its not working
+	//TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
+	//TextureManager::Instance()->draw("S_bgp", 0, 0, 0, 255, false);//not sure why its not working
 	SoundManager::Instance().load("../Assets/audio/Bgm_1.mp3", "Bgm_1", SOUND_MUSIC);
 	SoundManager::Instance().playMusic("Bgm", -1, 0);
 	StartScene::start();
