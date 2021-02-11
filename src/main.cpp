@@ -21,6 +21,7 @@ int main(int argc, char * args[])
 
 	TheGame::Instance()->init("SDLEngine 0.24", 100, 100, 800, 600, false);
 
+	// Main game loop
 	while (TheGame::Instance()->isRunning())
 	{
 		frameStart = SDL_GetTicks();
@@ -32,8 +33,12 @@ int main(int argc, char * args[])
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameTime< DELAY_TIME)
 		{
+			// limit how this fast this thing runs
 			SDL_Delay(int(DELAY_TIME - frameTime));
 		}
+
+		auto deltaTime = float(SDL_GetTicks() - frameStart) / 1000.0f;
+		TheGame::Instance()->setDeltaTime(deltaTime);
 
 		frames++;
 		TheGame::Instance()->setFrames(frames);

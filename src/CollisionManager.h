@@ -31,6 +31,7 @@ public:
 private:
 	CollisionManager();
 	~CollisionManager();
+	
 };
 
 #endif /* defined (__COLLISION_MANAGER__) */

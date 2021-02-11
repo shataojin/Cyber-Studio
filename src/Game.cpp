@@ -103,8 +103,9 @@ void Game::start()
 {
 	m_currentSceneState = NO_SCENE;
 
-	//changeSceneState(PLAY_SCENE);
+	//TODO: temporarily commented out
 	changeSceneState(START_SCENE);
+	//changeSceneState(PLAY_SCENE);
 }
 
 bool Game::isRunning() const
@@ -126,6 +127,16 @@ void Game::setFrames(const Uint32 frames)
 Uint32 Game::getFrames() const
 {
 	return m_frames;
+}
+
+float Game::getDeltaTime() const
+{
+	return m_deltaTime;
+}
+
+void Game::setDeltaTime(const float time)
+{
+	m_deltaTime = time;
 }
 
 void Game::changeSceneState(const SceneState new_state)

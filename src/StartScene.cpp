@@ -6,11 +6,12 @@
 
 StartScene::StartScene()
 {
-	//TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
-	//TextureManager::Instance()->draw("S_bgp", 0, 0, 0, 255, false);//not sure why its not working
-	SoundManager::Instance().load("../Assets/audio/Bgm_1.mp3", "Bgm_1", SOUND_MUSIC);
-	SoundManager::Instance().playMusic("Bgm", -1, 0);
 	StartScene::start();
+	SoundManager::Instance().load("../Assets/audio/Button.wav", "BT", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Bgm_1.mp3", "Bgm", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("Bgm", -1, 0);
+	SoundManager::Instance().setMusicVolume(15);
+	SoundManager::Instance().setSoundVolume(20);
 }
 
 StartScene::~StartScene()
@@ -49,11 +50,15 @@ void StartScene::handleEvents()
 
 void StartScene::start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_pStartLabel = new Label("Cyber Link", "Consolas", 80, blue, glm::vec2(400.0f, 40.0f));
+	TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
+	TextureManager::Instance()->draw("S_bgp", 0, 00, 0, 255, true);//not sure why its not working
+	
+	const SDL_Color orange = { 255, 165, 0, 255 };
+	m_pStartLabel = new Label("Cyber Link", "Consolas", 80, orange, glm::vec2(400.0f, 40.0f));
 	m_pStartLabel->setParent(this);
 	addChild(m_pStartLabel);
-
+	
+	const SDL_Color blue = { 0, 0, 255, 255 };
 	m_pInstructionsLabel = new Label("Fight for your survival", "Consolas", 40, blue, glm::vec2(400.0f, 120.0f));
 	m_pInstructionsLabel->setParent(this);
 	addChild(m_pInstructionsLabel);
@@ -61,27 +66,28 @@ void StartScene::start()
 
 	m_pShip = new Ship();
 	m_pShip->getTransform()->position = glm::vec2(400.0f, 300.0f); 
-	//addChild(m_pShip); 
+//	addChild(m_pShip); 
 
 	// Start Button
 	m_pStartButton = new Button();
-	m_pStartButton->getTransform()->position = glm::vec2(400.0f, 400.0f); 
+	m_pStartButton->getTransform()->position = glm::vec2(400.0f, 400.0f);
 
 	m_pStartButton->addEventListener(CLICK, [&]()-> void
-	{
-		m_pStartButton->setActive(false);
-		TheGame::Instance()->changeSceneState(PLAY_SCENE);
-	});
-	
+		{
+			SoundManager::Instance().playSound("BT", 0, -1);
+			m_pStartButton->setActive(false);
+			TheGame::Instance()->changeSceneState(PLAY_SCENE);
+		});
+
 	m_pStartButton->addEventListener(MOUSE_OVER, [&]()->void
-	{
-		m_pStartButton->setAlpha(128);
-	});
+		{
+			m_pStartButton->setAlpha(128);
+		});
 
 	m_pStartButton->addEventListener(MOUSE_OUT, [&]()->void
-	{
-		m_pStartButton->setAlpha(255);
-	});
+		{
+			m_pStartButton->setAlpha(255);
+		});
 	addChild(m_pStartButton);
 
 	// Quit Button
@@ -90,6 +96,7 @@ void StartScene::start()
 
 	m_pQuitButton->addEventListener(CLICK, [&]()-> void
 		{
+			SoundManager::Instance().playSound("BT", 0, -1);
 			m_pQuitButton->setActive(false);
 			TheGame::Instance()->quit();
 		});
@@ -105,5 +112,7 @@ void StartScene::start()
 		});
 	addChild(m_pQuitButton);
 
+
+	
 }
 
