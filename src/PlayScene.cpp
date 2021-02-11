@@ -159,6 +159,10 @@ void PlayScene::handleEvents()
 		PlayScene::clean();
 		PlayScene::start();
 	}
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_0))
+	{
+		PlayScene::start();
+	}
 	
 }
 
