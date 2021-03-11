@@ -19,6 +19,7 @@ StartScene::~StartScene()
 
 void StartScene::draw()
 {
+	TextureManager::Instance()->draw("bgp", 400, 300, 0, 255, true);
 	drawDisplayList();
 }
 
@@ -50,8 +51,7 @@ void StartScene::handleEvents()
 
 void StartScene::start()
 {
-	TextureManager::Instance()->load(".. / Assets / textures / s_bgp.png", "S_bgp");//not sure why its not working
-	TextureManager::Instance()->draw("S_bgp", 0, 00, 0, 255, true);//not sure why its not working
+	TextureManager::Instance()->load("../Assets/textures/bgp.png", "bgp");
 	
 	const SDL_Color orange = { 255, 165, 0, 255 };
 	m_pStartLabel = new Label("Cyber Link", "Consolas", 80, orange, glm::vec2(400.0f, 40.0f));

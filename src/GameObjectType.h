@@ -4,7 +4,10 @@
 enum GameObjectType {
 	NONE = -1,
 	SPACE_SHIP,
+	LINE_MOVE_E,
+	LINE_MOVE_TT,
 	SHIP,
+	BULLET,
 	TARGET,
 	PLAYER,
 	PLANE,

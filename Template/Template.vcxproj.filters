@@ -31,6 +31,9 @@
     <Filter Include="DOCS">
       <UniqueIdentifier>{a44d29c3-2835-4901-a310-0039121b84b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tile">
+      <UniqueIdentifier>{44b41110-e5d8-4e16-bdf5-81729c63c815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\StartScene.cpp">
@@ -125,6 +128,30 @@
     </ClCompile>
     <ClCompile Include="..\src\SpaceShip.cpp">
       <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\linemoveTT.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LineMoveE.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bullet.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WinScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LoseScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TiledLevel.cpp">
+      <Filter>Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Tile.cpp">
+      <Filter>Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\NavigationObject.cpp">
+      <Filter>Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,10 +290,45 @@
     <ClInclude Include="..\src\SpaceShip.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\TileStatus.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NeighbourTile.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\linemoveTT.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LineMoveE.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bullet.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\WinScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LoseScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TiledLevel.h">
+      <Filter>Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tile.h">
+      <Filter>Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\NavigationObject.h">
+      <Filter>Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">
       <Filter>DOCS</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\src\Tiledata.txt">
+      <Filter>Tile</Filter>
+    </Text>
   </ItemGroup>
 </Project>
