@@ -9,6 +9,8 @@
 // IMGUI Includes
 #include "imgui.h"
 #include "imgui_sdl.h"
+#include "LoseScene.h"
+#include "WinScene.h"
 
 
 Game* Game::s_pInstance = nullptr;
@@ -173,6 +175,14 @@ void Game::changeSceneState(const SceneState new_state)
 		case END_SCENE:
 			m_currentScene = new EndScene();
 			std::cout << "end scene activated" << std::endl;
+			break;
+		case WIN_SCENES:
+			m_currentScene = new WinScene();
+			std::cout << "end scene activated" << std::endl;
+			break;
+		case LOSE_SCENES:
+			m_currentScene = new LoseScene ();
+			std::cout << "LoseScene activated" << std::endl;
 			break;
 		default:
 			std::cout << "default case activated" << std::endl;

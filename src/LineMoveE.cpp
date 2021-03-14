@@ -1,3 +1,4 @@
+//直线移动的AI以AI追随移动（有问题暂时没有启用）
 #include "LineMoveE.h"
 #include "Util.h"
 #include "Game.h"
