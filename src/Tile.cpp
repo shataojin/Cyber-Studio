@@ -83,27 +83,7 @@ void Tile::setTileStatus(const float status)
 
 	m_statusLabel->setText(cost_string);
 
-	//switch (status)
-	//{
-	//case UNVISITED:
-	//	m_statusLabel->setText("--");
-	//	break;
-	//case OPEN:
-	//	m_statusLabel->setText("O");
-	//	break;
-	//case CLOSED:
-	//	m_statusLabel->setText("C");
-	//	break;
-	//case IMPASSABLE:
-	//	m_statusLabel->setText("I");
-	//	break;
-	//case GOAL:
-	//	m_statusLabel->setText("G");
-	//	break;
-	//case START:
-	//	m_statusLabel->setText("S");
-	//	break;
-	//}
+
 }
 
 void Tile::addLabels()
@@ -125,3 +105,15 @@ void Tile::setLabelsEnabled(const bool state)
 	m_costLabel->setEnabled(state);
 	m_statusLabel->setEnabled(state);
 }
+
+/*
+glm::vec2 Tile::getGridPosition() const
+{
+	return m_gridPosition;
+}
+
+void Tile::setGridPosition(const float col, const float row)
+{
+	m_gridPosition = glm::vec2(col, row);
+}
+*/

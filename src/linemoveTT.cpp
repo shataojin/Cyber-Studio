@@ -1,6 +1,6 @@
-
-//直线移动的AI需要地图更新然后添加移动（可用，但应该只能作为展示而不能作为实际游戏中）
 #include "linemoveTT.h"
+
+
 #include "SoundManager.h"
 #include "TextureManager.h"
 #include "EventManager.h"

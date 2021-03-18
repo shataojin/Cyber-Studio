@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "EventManager.h"
 
+
 // required for IMGUI
 #include "imgui.h"
 #include "imgui_sdl.h"
@@ -37,6 +38,7 @@ void PlayScene::draw()
 	}
 	TextureManager::Instance()->draw("bgp", 400, 300, 0, 255, true);
 	drawDisplayList();
+	
 	//SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
 }
 
@@ -196,11 +198,11 @@ void PlayScene::handleEvents()
 	}
 	if (m_pPlayer->isEnabled() == false)
 	{
-		TheGame::Instance()->changeSceneState(END_SCENE);
+		TheGame::Instance()->changeSceneState(LOSE_SCENES);
 	}
-	else if(CollisionManager::AABBCheck(m_pPlayer, m_pTarget))
+	if (CollisionManager::AABBCheck(m_pPlayer, m_pTarget))
 	{
-		TheGame::Instance()->changeSceneState(END_SCENE);
+		TheGame::Instance()->changeSceneState(WIN_SCENES);
 	}
 
 	
@@ -212,6 +214,8 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 	TextureManager::Instance()->load("../Assets/textures/bgp.png", "bgp");
 	
+	m_buildGrid();
+	
 	m_pTarget = new Target();
 	m_pTarget->getTransform()->position = glm::vec2(700.0f, 300.0f);
 	addChild(m_pTarget);
@@ -220,7 +224,15 @@ void PlayScene::start()
 	m_pPlayer->getTransform()->position = glm::vec2(100.0f, 300.0f);
 	addChild(m_pPlayer);
 	m_playerFacingRight = true;
-
+	//理念为与玩家绑定得一个OBJ+无移动速度得追逐鼠标。
+	
+	/*
+	m_pPlayerGun = new playerGun();
+	m_pPlayerGun ->getTransform()->position = glm::vec2(100.0f, 300.0f);
+	m_pPlayerGun->getTransform()->position = m_pPlayerGun->getTransform()->position;//should lock the postiton toghter
+	m_pPlayerGun->setDestination()->destination= GetCursorPos;
+	addChild(m_pPlayerGun);
+	*/
 	
 	// instantiating spaceship
 	m_pSpaceShip[0] = new SpaceShip();
@@ -292,47 +304,36 @@ void PlayScene::start()
 	addChild(m_pWinLabel);
 	m_pWinLabel->setEnabled(false);
 
+	m_computeTileCosts();
 }
 
-/*
 void PlayScene::m_buildGrid()
 {
-
 	auto tileSize = Config::TILE_SIZE;
-	//
-	std::ifstream inFile("../Assets/data/Tiledata.txt");
-	if (inFile.is_open())
-	{
-		char key;
-		int x, y;
-		bool o, h;
-		while (!inFile.eof())
-		{
-			inFile >> key >> x >> y >> o >> h;
-			m_tiles.emplace(key, new TileC({ x * tileSize,y * tileSize, }, { 0.0f, 0.0f }, o, h));
-		}
-	}
-	inFile.close();
+
+	// add tiles to the grid
 	for (int row = 0; row < Config::ROW_NUM; ++row)
 	{
 		for (int col = 0; col < Config::COL_NUM; ++col)
 		{
-			Tile* tile = new Tile();//Create empty tile
+			Tile* tile = new Tile(); // create empty tile
 			tile->getTransform()->position = glm::vec2(col * tileSize, row * tileSize);
 			tile->setGridPosition(col, row);
 			addChild(tile);
 			tile->addLabels();
-			tile->setTileCost(tile->getGridPosition().x);
-			tile->setTileStatus(tile->getGridPosition().y);
 			tile->setEnabled(false);
 			m_pGrid.push_back(tile);
-			
+		}
+	}
+
+	// create references for each tile to its neighbours
 	for (int row = 0; row < Config::ROW_NUM; ++row)
 	{
 		for (int col = 0; col < Config::COL_NUM; ++col)
 		{
 			Tile* tile = m_getTile(col, row);
 
+			// Topmost row
 			if (row == 0)
 			{
 				tile->setNeighbourTile(TOP_TILE, nullptr);
@@ -341,6 +342,8 @@ void PlayScene::m_buildGrid()
 			{
 				tile->setNeighbourTile(TOP_TILE, m_getTile(col, row - 1));
 			}
+
+			// rightmost column
 			if (col == Config::COL_NUM - 1)
 			{
 				tile->setNeighbourTile(RIGHT_TILE, nullptr);
@@ -348,8 +351,9 @@ void PlayScene::m_buildGrid()
 			else
 			{
 				tile->setNeighbourTile(RIGHT_TILE, m_getTile(col + 1, row));
-
 			}
+
+			// bottommost row
 			if (row == Config::ROW_NUM - 1)
 			{
 				tile->setNeighbourTile(BOTTOM_TILE, nullptr);
@@ -357,8 +361,9 @@ void PlayScene::m_buildGrid()
 			else
 			{
 				tile->setNeighbourTile(BOTTOM_TILE, m_getTile(col, row + 1));
-
 			}
+
+			// leftmost  column
 			if (col == 0)
 			{
 				tile->setNeighbourTile(LEFT_TILE, nullptr);
@@ -368,14 +373,11 @@ void PlayScene::m_buildGrid()
 				tile->setNeighbourTile(LEFT_TILE, m_getTile(col - 1, row));
 			}
 		}
-
 	}
-
-
-
+	m_setGridEnabled(true);
 	std::cout << m_pGrid.size() << std::endl;
 }
-		
+
 void PlayScene::m_setGridEnabled(bool state) const
 {
 	for (auto tile : m_pGrid)
@@ -401,7 +403,16 @@ Tile* PlayScene::m_getTile(glm::vec2 grid_position) const
 	const auto row = grid_position.y;
 	return m_pGrid[(row * Config::COL_NUM) + col];
 }
-*/
+
+void PlayScene::m_computeTileCosts()
+{
+	for (auto tile : m_pGrid)
+	{
+		auto distance = Util::distance(m_pTarget->getGridPosition(), tile->getGridPosition());
+		tile->setTileCost(distance);
+	}
+}
+
 
 
 void PlayScene::GUI_Function() const

@@ -178,10 +178,10 @@ void Game::changeSceneState(const SceneState new_state)
 			break;
 		case WIN_SCENES:
 			m_currentScene = new WinScene();
-			std::cout << "end scene activated" << std::endl;
+			std::cout << "WinScene activated" << std::endl;
 			break;
 		case LOSE_SCENES:
-			m_currentScene = new LoseScene ();
+			m_currentScene = new LoseScene();
 			std::cout << "LoseScene activated" << std::endl;
 			break;
 		default:

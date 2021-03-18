@@ -6,20 +6,21 @@ TiledLevel::TiledLevel(const unsigned short column, const unsigned short row,
                        const char* tileData, const char* levelData, const char* tileKey) :m_row(row), m_col(column), m_tileKey(tileKey)
 {
 	auto size = Config::TILE_SIZE;
-	std::ifstream inFile(tileData);
-	if(inFile.is_open())
-	{
-		char key;
-		int x, y;
-		bool obs, haz;
-		while (!inFile.eof())
-		{
-			inFile >> key >> x >> y >> obs >> haz;
-			m_tiles.emplace(key, new TileC({ x * size,y * size, },{0.0f, 0.0f}, obs, haz));
-		}
-	}
-	inFile.close();
-	inFile.open(levelData);
+	//auto size = Config::TILE_SIZE;
+	//std::ifstream inFile(tileData);
+	//if(inFile.is_open())
+	//{
+	//	char key;
+	//	int x, y;
+	//	bool obs, haz;
+	//	while (!inFile.eof())
+	//	{
+	//		inFile >> key >> x >> y >> obs >> haz;
+	//		m_tiles.emplace(key, new TileC({ x * size,y * size, },{0.0f, 0.0f}, obs, haz));
+	//	}
+	//}
+	//inFile.close();
+	//inFile.open(levelData);
 	//if (inFile.is_open())
 	//{
 	//	char key;
@@ -37,7 +38,7 @@ TiledLevel::TiledLevel(const unsigned short column, const unsigned short row,
 	//		}
 	//	}
 	//}
-	inFile.close();
+	//inFile.close();
 }
 
 TiledLevel::~TiledLevel()
@@ -79,3 +80,18 @@ void TiledLevel::draw()
 void TiledLevel::clean()
 {
 }
+
+
+
+TileC::TileC(std::string texture, std::string key)
+{
+	TextureManager::Instance()->load(texture, key);
+	m_Texture = texture;
+	m_key = key;
+
+	auto size = TextureManager::Instance()->getTextureSize(key);
+	setWidth(size.x);
+	setHeight(size.y);
+	setType(BLOCK);
+}
+
