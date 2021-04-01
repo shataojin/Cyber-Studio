@@ -32,6 +32,7 @@ public:
 
 	// mouse events
 	bool getMouseButton(int button_number) const;
+	void serMousePosition(glm::vec2 mousePosition);
 	glm::vec2 getMousePosition() const;
 	int getMouseWheel() const;
 
@@ -40,7 +41,7 @@ public:
 
 	//IMGUI
 	bool isIMGUIActive();
-	
+
 private:
 	// Hide Constructor and Destructor 
 	EventManager();
@@ -49,7 +50,7 @@ private:
 	EventManager& operator=(const EventManager&) = delete;
 
 	/*------- PRIVATE MEMBER FUNCTIONS -------*/
-	
+
 	// handle keyboard events
 	void onKeyDown();
 	void onKeyUp();
@@ -65,7 +66,7 @@ private:
 
 	// IMGUI IO
 	void m_IMGUI_Keymap();
-	
+
 
 	/*------- PRIVATE MEMBER VARIABLES -------*/
 
@@ -73,7 +74,7 @@ private:
 	ImGuiIO& m_io;
 	bool m_isIMGUIActive;
 
-	
+
 	// keyboard states array
 	const Uint8* m_keyStates;
 
@@ -84,7 +85,7 @@ private:
 
 	// GameControllers
 	std::vector<GameController*> m_pGameControllers;
-	
+
 	// is the Event Manager active
 	bool m_isActive;
 };

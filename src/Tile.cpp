@@ -6,7 +6,7 @@
 #include "Config.h"
 #include "TextureManager.h"
 #include "Util.h"
-#include "NeighbourTile.h"
+
 
 Tile::Tile() :m_cost(0.0f)
 {
@@ -83,27 +83,7 @@ void Tile::setTileStatus(const float status)
 
 	m_statusLabel->setText(cost_string);
 
-	//switch (status)
-	//{
-	//case UNVISITED:
-	//	m_statusLabel->setText("--");
-	//	break;
-	//case OPEN:
-	//	m_statusLabel->setText("O");
-	//	break;
-	//case CLOSED:
-	//	m_statusLabel->setText("C");
-	//	break;
-	//case IMPASSABLE:
-	//	m_statusLabel->setText("I");
-	//	break;
-	//case GOAL:
-	//	m_statusLabel->setText("G");
-	//	break;
-	//case START:
-	//	m_statusLabel->setText("S");
-	//	break;
-	//}
+
 }
 
 void Tile::addLabels()
@@ -111,12 +91,12 @@ void Tile::addLabels()
 	auto offset = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
 	m_costLabel = new Label("", "Consolas", 12);
 	m_costLabel->getTransform()->position = getTransform()->position + offset + glm::vec2(0.0f, -6.0f);
-	getParent()->addChild(m_costLabel);
+	getParent()->addChild(m_costLabel, 1);
 	m_costLabel->setEnabled(false);
 
 	m_statusLabel = new Label("--", "Consolas", 12);
 	m_statusLabel->getTransform()->position = getTransform()->position + offset + glm::vec2(0.0f, 6.0f);
-	getParent()->addChild(m_statusLabel);
+	getParent()->addChild(m_statusLabel, 1);
 	m_statusLabel->setEnabled(false);
 }
 
@@ -125,3 +105,15 @@ void Tile::setLabelsEnabled(const bool state)
 	m_costLabel->setEnabled(state);
 	m_statusLabel->setEnabled(state);
 }
+
+/*
+glm::vec2 Tile::getGridPosition() const
+{
+	return m_gridPosition;
+}
+
+void Tile::setGridPosition(const float col, const float row)
+{
+	m_gridPosition = glm::vec2(col, row);
+}
+*/

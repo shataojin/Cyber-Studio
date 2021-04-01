@@ -9,20 +9,23 @@
 #include "NavigationObject.h"
 #include "Tile.h"
 
-class TileC : public NavigationObject
+class TileC : public Tile
+
 {
 public:
-	TileC(glm::vec2 p, glm::vec2 d, bool o, bool h)
-		: m_obstacle(o), m_hazard(h) {}
-	TileC* Clone() { return new TileC(this->getTransform()->position, this->getTransform()->scale, m_obstacle, m_hazard); }
+	//TileC(glm::vec2 p, glm::vec2 d, bool o, bool h)
+	//	: m_obstacle(o), m_hazard(h) {}
+	//TileC* Clone() { return new TileC(this->getTransform()->position, this->getTransform()->scale, m_obstacle, m_hazard); }
+	//void SetXY(float x, float y) { this->getTransform()->position.x = x; this->getTransform()->position.y = y; }
+	TileC(std::string texture, std::string key);
 	bool IsObstacle() { return m_obstacle; }
-	void SetXY(float x, float y) { this->getTransform()->position.x = x; this->getTransform()->position.y = y; }
-
-	void draw() override {};
+	
+	void draw() override ;
 	void update() override {};
 	void clean() override {};
 private:
-	bool m_obstacle, m_hazard;
+	bool m_obstacle = false;
+	std::string m_Texture, m_key;
 };
 
 class TiledLevel :public NavigationObject
@@ -40,7 +43,6 @@ private:
 	const char* m_tileKey;
 	int m_row, m_col;
 	std::map<char, TileC* > m_tiles;
-	//std::vector<std::vector<TileC*>>m_level;
 	std::vector<TileC*> m_obstacles;
 };
 

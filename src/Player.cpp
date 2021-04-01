@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "TextureManager.h"
+#include "Util.h"
 
 Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 {
@@ -21,7 +22,6 @@ Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	setType(PLAYER);
-
 	m_buildAnimations();
 }
 
@@ -61,6 +61,8 @@ void Player::draw()
 	
 }
 
+
+
 void Player::update()
 {
 	if(m_currentAnimationState == PLAYER_RUN_RIGHT)
@@ -84,14 +86,47 @@ void Player::update()
 	}
 }
 
+void Player:: CollisionWall()
+{
+	if (m_currentAnimationState == PLAYER_RUN_RIGHT)
+	{
+		getTransform()->position -= glm::vec2(5.0f, 0.0f);
+	}
+
+	if (m_currentAnimationState == PLAYER_RUN_LEFT)
+	{
+		getTransform()->position -= glm::vec2(-5.0f, 0.0f);
+	}
+
+	if (m_currentAnimationState == PLAYER_RUN_DOWN)
+	{
+		getTransform()->position -= glm::vec2(0.0f, 5.0f);
+	}
+
+	if (m_currentAnimationState == PLAYER_RUN_UP)
+	{
+		getTransform()->position -= glm::vec2(0.0f, -5.0f);
+	}
+}
+
 void Player::clean()
 {
 }
-
 void Player::setAnimationState(const PlayerAnimationState new_state)
 {
 	m_currentAnimationState = new_state;
 }
+
+glm::vec2 Player::getOrientation() const
+{
+	return m_orientation;
+}
+
+void Player::setOrientation(glm::vec2 orientation)
+{
+	m_orientation = orientation;
+}
+
 
 void Player::m_buildAnimations()
 {
@@ -114,4 +149,24 @@ void Player::m_buildAnimations()
 	runAnimation.frames.push_back(getSpriteSheet()->getFrame("megaman-run-3"));
 
 	setAnimation(runAnimation);
+}
+
+
+float Player::getRotation() const
+{
+	return m_rotationAngle;
+}
+
+void Player::setRotation(const float angle)
+{
+	m_rotationAngle = angle;
+
+	const auto offset = -90.0f;
+	const auto angle_in_radians = (angle + offset) * Util::Deg2Rad;
+
+	const auto x = cos(angle_in_radians);
+	const auto y = sin(angle_in_radians);
+
+	// convert the angle to a normalized vector and store it in Orientation
+	setOrientation(glm::vec2(x, y));
 }

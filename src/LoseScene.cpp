@@ -47,16 +47,16 @@ void LoseScene::handleEvents()
 }
 
 void LoseScene::start()
-{
+{ 
 	TextureManager::Instance()->load("../Assets/textures/background.png", "background");
 	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_label = new Label("GG", "Dock51", 80, blue, glm::vec2(400.0f, 40.0f));
+	m_label = new Label("mission failed", "Dock51", 80, blue, glm::vec2(400.0f,100.0f));
 	m_label->setParent(this);
 	addChild(m_label);
 
 	// Restart Button
 	m_pRestartButton = new Button("../Assets/textures/restartButton.png", "restartButton");
-	m_pRestartButton->getTransform()->position = glm::vec2(400.0f, 400.0f);
+	m_pRestartButton->getTransform()->position = glm::vec2(400.0f, 300.0f);
 	m_pRestartButton->addEventListener(CLICK, [&]()-> void
 		{
 			m_pRestartButton->setActive(false);
@@ -75,34 +75,15 @@ void LoseScene::start()
 
 	addChild(m_pRestartButton);
 
-	//next level button
-	m_nextButton = new Button("../Assets/textures/restartButton.png", "restartButton");
-	m_nextButton->getTransform()->position = glm::vec2(500.0f, 400.0f);
-	m_nextButton->addEventListener(CLICK, [&]()-> void
-		{
-			m_nextButton->setActive(false);
-			TheGame::Instance()->changeSceneState(PLAY_SCENE);
-		});
 
-	m_nextButton->addEventListener(MOUSE_OVER, [&]()->void
-		{
-			m_nextButton->setAlpha(128);
-		});
-
-	m_nextButton->addEventListener(MOUSE_OUT, [&]()->void
-		{
-			m_nextButton->setAlpha(255);
-		});
-
-	addChild(m_nextButton);
 
 	// exit button
-	m_exitbutton = new Button("../Assets/textures/restartButton.png", "restartButton");
-	m_exitbutton->getTransform()->position = glm::vec2(600.0f, 400.0f);
+	m_exitbutton = new Button("../Assets/textures/QuitButton.png", "quit");
+	m_exitbutton->getTransform()->position = glm::vec2(400.0f, 400.0f);
 	m_exitbutton->addEventListener(CLICK, [&]()-> void
 		{
 			m_exitbutton->setActive(false);
-			TheGame::Instance()->changeSceneState(END_SCENE);
+			TheGame::Instance()->quit();
 		});
 
 	m_exitbutton->addEventListener(MOUSE_OVER, [&]()->void

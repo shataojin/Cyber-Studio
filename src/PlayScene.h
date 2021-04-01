@@ -13,8 +13,10 @@
 #include "TiledLevel.h"
 #include "Bullet.h"
 #include <vector>
+#include "TileA.h"
 
 #include "linemoveTT.h"
+#include "playerGun.h"
 
 #define ROWS 48
 #define COLS 64
@@ -31,7 +33,7 @@ public:
 	virtual void clean() override;
 	virtual void handleEvents() override;
 	virtual void start() override;
-
+	int TotalBullets = 0;
 	
 private:
 	// IMGUI Function
@@ -45,6 +47,7 @@ private:
 	linemoveTT* m_pLineSpaceShipx[10];
 	Target* m_pTarget;
 	Player* m_pPlayer;
+	playerGun* m_pPlayerGun;
 	bool m_playerFacingRight;
 	bool m_player;
 	
@@ -56,7 +59,15 @@ private:
 	//map
 	SDL_Texture* m_pTileText;
 	std::map<char, Tile*> m_tiles;
-	std::vector<std::vector<Tile*>> m_level; 
+	std::vector<std::vector<Tile*>> m_level;
+	TileC* Background;
+	TileC* m_field[30];
+	
+	
+	int OBJL_x = (rand() % 19 + 5) * 40 - 20;
+	int OBJL_y = (rand() % 14 + 1) * 40 - 20;
+	
+	
 	//PlatformPlayer* m_pPlayer;或许用到玩家上
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	Tile* m_getTile(int col, int row) const;
@@ -65,6 +76,8 @@ private:
 	void m_setGridEnabled(bool state) const;
 	std::vector<Tile*> m_pGrid;
 	void m_buildGrid();
+	void m_computeTileCosts();
+	std::vector<NavigationObject*>m_pMap;
 	//bullet
 	std::vector<Bullet*>m_pBullet;
 	std::vector<Bullet*>m_pEnemyBullet;

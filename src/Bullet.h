@@ -31,13 +31,14 @@ public:
 	bool bulletShot = false;
 	void Shoot();
 	void move();
+
 private:
 
 	glm::vec2 m_destination;
 	glm::vec2 m_targetDirection;
 	glm::vec2 m_orientation;
 	float m_rotationAngle;
-	float m_maxSpeed=5;
+	float m_maxSpeed = 15;
 	float m_turnRate;
 	float m_accelerationRate;
 

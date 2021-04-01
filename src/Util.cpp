@@ -114,11 +114,11 @@ float Util::squaredMagnitude(glm::vec2 vec)
 }
 
 /**
- * @brief 
- * 
- * @param vector 
- * @param magnitude 
- * @return glm::vec2 
+ * @brief
+ *
+ * @param vector
+ * @param magnitude
+ * @return glm::vec2
  */
 glm::vec2 Util::limitMagnitude(glm::vec2 vector, const float magnitude)
 {
@@ -141,7 +141,7 @@ glm::vec2 Util::limitMagnitude(glm::vec2 vector, const float magnitude)
 *
 */
 float Util::lerp(const float a, const float b, const float t)
-{	
+{
 	return a + (b - a) * Util::clamp01(t);
 }
 
@@ -167,7 +167,7 @@ float Util::lerpUnclamped(const float a, const float b, const float t)
 */
 float Util::lerpAngle(const float a, const float b, const float t)
 {
-	auto num  = Util::repeat(b - a, 360.0);
+	auto num = Util::repeat(b - a, 360.0);
 	if (num > 180.0f) {
 		num -= 360.0f;
 	}
@@ -184,7 +184,7 @@ float Util::repeat(float t, float length)
 }
 
 float Util::RandomRange(const float min, const float max)
-{	
+{
 	return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
 }
 
@@ -245,7 +245,7 @@ float Util::max(float a, float b)
 
 /**
 * Negates the x and y components of a vec2 and returns them in a new vec2 object
-*  
+*
 */
 glm::vec2 Util::negate(const glm::vec2 vec)
 {
@@ -270,7 +270,7 @@ glm::vec2 Util::inverse(const glm::vec2 vec)
 
 /**
 * Normalizes vec2 and stores the result in a new vec2 object
-* 
+*
 */
 glm::vec2 Util::normalize(const glm::vec2 vec)
 {
@@ -308,6 +308,18 @@ float Util::signedAngle(const glm::vec2 from, const glm::vec2 to)
 	const auto sign = Util::sign(from.x * to.y - from.y * to.x);
 	return unsigned_angle * sign;
 }
+
+glm::vec2 Util::getOrientation(const float angle)
+{
+	const auto angle_in_radians = (angle - 90.0f) * Util::Deg2Rad;
+
+	const auto dx = cos(angle_in_radians);
+	const auto dy = sin(angle_in_radians);
+
+	// convert the angle to a normalized vector and store it in Orientation
+	return glm::vec2(dx, dy);
+}
+
 
 void Util::DrawLine(glm::vec2 start, glm::vec2 end, glm::vec4 colour)
 {

@@ -5,7 +5,7 @@
 #include "PlayerAnimationState.h"
 #include "Sprite.h"
 
-class Player final : public Sprite
+class Player  : public Sprite
 {
 public:
 	Player();
@@ -18,7 +18,13 @@ public:
 
 	// setters
 	void setAnimationState(PlayerAnimationState new_state);
-
+	void CollisionWall();
+	glm::vec2 getOrientation() const;
+	void setOrientation(glm::vec2 orientation);
+	glm::vec2 m_orientation;
+	float getRotation() const;
+	void setRotation(float angle);
+	float m_rotationAngle;
 private:
 	void m_buildAnimations();
 

@@ -1,13 +1,12 @@
-//直线移动的AI以AI追随移动（有问题暂时没有启用）
 #include "LineMoveE.h"
 #include "Util.h"
 #include "Game.h"
 #include "TextureManager.h"
 LineMoveE::LineMoveE()
 {
-	TextureManager::Instance()->load("../Assets/textures/spaceship.png", "spaceship");
+	TextureManager::Instance()->load("../Assets/textures/Landmine.png", "Landmine");
 
-	auto size = TextureManager::Instance()->getTextureSize("spaceship");
+	auto size = TextureManager::Instance()->getTextureSize("Landmine");
 	setWidth(size.x);
 	setHeight(size.y);
 
@@ -28,7 +27,7 @@ LineMoveE::~LineMoveE()
 
 void LineMoveE::draw()
 {
-	TextureManager::Instance()->draw("spaceship",
+	TextureManager::Instance()->draw("Landmine",
 		getTransform()->position.x, getTransform()->position.y, m_rotationAngle, 255, true);
 
 	Util::DrawLine(getTransform()->position, (getTransform()->position + m_orientation * 60.0f));

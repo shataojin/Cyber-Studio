@@ -1,15 +1,15 @@
-
-//直线移动的AI需要地图更新然后添加移动（可用，但应该只能作为展示而不能作为实际游戏中）
 #include "linemoveTT.h"
+
+
 #include "SoundManager.h"
 #include "TextureManager.h"
 #include "EventManager.h"
 
 linemoveTT::linemoveTT()
 {
-	TextureManager::Instance()->load("../Assets/textures/plane.png", "plane");
+	TextureManager::Instance()->load("../Assets/textures/drone.png", "drone");
 
-	auto size = TextureManager::Instance()->getTextureSize("plane");
+	auto size = TextureManager::Instance()->getTextureSize("drone");
 	setWidth(size.x);
 	setHeight(size.y);
 
@@ -23,12 +23,12 @@ linemoveTT::~linemoveTT()
 
 void linemoveTT::draw()
 {
-	TextureManager::Instance()->draw("plane", 
+	TextureManager::Instance()->draw("drone", 
 		getTransform()->position.x, getTransform()->position.y, 0, 255, true);
 }
-/*
+
 void linemoveTT::handleEvents()
-{
+{/*
 	if (getTransform()->position.y == 600 || getTransform()->position.y == 0 || getTransform()->position.x == 0 || getTransform()->position.x == 800)
 	{
 		switch (i)
@@ -67,37 +67,106 @@ void linemoveTT::handleEvents()
 			break;
 		}
 	}
-	
+	*/
+	switch (MD)
+	{
+	case 1:getTransform()->position.x += speed;
+		break;
+	case 2:getTransform()->position.x -= speed;
+		break;
+	case 3:getTransform()->position.y += speed;
+		break;
+	case 4:getTransform()->position.y -= speed;
+		break;
+	}
 }
-*/
+//没用
+void linemoveTT::random()
+{/*
+	int MD = rand() % 4 + 1;
+	switch (MD)
+	{
+	case 1:getTransform()->position.x += speed;
+		break;
+	case 2:getTransform()->position.x -= speed;
+		break;
+	case 3:getTransform()->position.y += speed;
+		break;
+	case 4:getTransform()->position.y -= speed;
+		break;
+	}
+	*/
+}
 void linemoveTT::update()
 {
-		if (movetop == true) {
-			getTransform()->position.y += speed;
-			if (getTransform()->position.y == 600) {
-				movetop = false;
-			}
-		}
-		else if (movetop == false) {
-			getTransform()->position.y -= speed;
-			if (getTransform()->position.y == 0) {
-				movetop = true;
-			}
-		}
+	
+	switch (MD)
+	{
+	case 1:getTransform()->position.x += speed;
+		break;
+	case 2:getTransform()->position.x -= speed;
+		break;
+	case 3:getTransform()->position.y += speed;
+		break;
+	case 4:getTransform()->position.y -= speed;
+		break;
+	}
 
-		if (moveright == true) {
-			getTransform()->position.x += speed;
-			if (getTransform()->position.x == 800) {
-				moveright = false;
-			}
+	if (getTransform()->position.y += speed)
+	{
+		moveup == true;
+		if(getTransform()->position.y == 580)
+		{
+			moveup = false;
 		}
-		else if (moveright == false) {
-			getTransform()->position.x -= speed;
-			if (getTransform()->position.x == 0) {
-				moveright = true;
-			}
-		}
+	}
 
+
+	if (getTransform()->position.y -= speed)
+	{
+		moveup == false;
+		if (getTransform()->position.y ==20)
+		{
+			moveup = true;
+		}
+	}
+
+	if (getTransform()->position.x += speed)
+	{
+		moveright = true;
+		if (getTransform()->position.x == 780)
+		{
+			moveright = false;
+		}
+	}
+
+
+	if (getTransform()->position.x -= speed)
+	{
+		moveright = false;
+		if (getTransform()->position.x ==20)
+		{
+			moveright = true;
+		}
+	}
+
+	
+if(moveup == true)
+{
+	getTransform()->position.y += speed;
+}
+else if (moveup == false)
+{
+	getTransform()->position.y -= speed;
+}
+if (moveright == true)
+{
+	getTransform()->position.x -= speed;
+}
+else if (moveright == false)
+{
+	getTransform()->position.x += speed;
+}
 }
 
 void  linemoveTT::clean()
