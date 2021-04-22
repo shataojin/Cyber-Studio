@@ -9,7 +9,7 @@ EndScene::EndScene()
 	EndScene::start();
 	SoundManager::Instance().load("../Assets/audio/win.mp3", "WBgm", SOUND_MUSIC);
 	SoundManager::Instance().playMusic("WBgm", 0, 0);
-	SoundManager::Instance().setMusicVolume(100);
+	SoundManager::Instance().setMusicVolume(30);
 	SoundManager::Instance().setSoundVolume(20);
 }
 

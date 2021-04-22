@@ -10,7 +10,7 @@ LoseScene::LoseScene()
 
 	SoundManager::Instance().load("../Assets/audio/lose.mp3", "lBgm", SOUND_MUSIC);
 	SoundManager::Instance().playMusic("lBgm", 0, 0);
-	SoundManager::Instance().setMusicVolume(100);
+	SoundManager::Instance().setMusicVolume(30);
 	SoundManager::Instance().setSoundVolume(20);
 }
 
