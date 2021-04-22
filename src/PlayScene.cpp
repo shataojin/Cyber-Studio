@@ -424,7 +424,7 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
-	int ainumber = 5 + Game::Instance()->round;
+	int ainumber = 6 + Game::Instance()->round;
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 	//TextureManager::Instance()->load("../Assets/textures/bgp.png", "bgp");
