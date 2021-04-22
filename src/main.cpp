@@ -8,7 +8,7 @@
 const int FPS = 60;
 const int DELAY_TIME = 1000.0f / FPS;
 
-int main(int argc, char * args[])
+int main(int argc, char* args[])
 {
 	Uint32 frameStart, frameTime;
 	UINT32 frames = 0;
@@ -31,7 +31,7 @@ int main(int argc, char * args[])
 		TheGame::Instance()->render();
 
 		frameTime = SDL_GetTicks() - frameStart;
-		if (frameTime< DELAY_TIME)
+		if (frameTime < DELAY_TIME)
 		{
 			// limit how this fast this thing runs
 			SDL_Delay(int(DELAY_TIME - frameTime));

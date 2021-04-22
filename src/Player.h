@@ -5,7 +5,7 @@
 #include "PlayerAnimationState.h"
 #include "Sprite.h"
 
-class Player  : public Sprite
+class Player : public Sprite
 {
 public:
 	Player();
@@ -25,6 +25,7 @@ public:
 	float getRotation() const;
 	void setRotation(float angle);
 	float m_rotationAngle;
+
 private:
 	void m_buildAnimations();
 

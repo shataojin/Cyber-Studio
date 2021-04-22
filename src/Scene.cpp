@@ -17,13 +17,13 @@ void Scene::addChild(DisplayObject * child, uint32_t layer_index, std::optional<
 {
 	uint32_t index = 0;
 	// If we passed in an order index, override the auto-increment value
-	if(order_index.has_value()) 
-    {
+	if (order_index.has_value())
+	{
 		index = order_index.value();
 	}
 	// If we did not pass in an order index, generate one for them
-	else 
-    {
+	else
+	{
 		index = m_nextLayerIndex++;
 	}
 	child->setLayerIndex(layer_index, index);
@@ -31,7 +31,7 @@ void Scene::addChild(DisplayObject * child, uint32_t layer_index, std::optional<
 	m_displayList.push_back(child);
 }
 
-void Scene::removeChild(DisplayObject* child)
+void Scene::removeChild(DisplayObject * child)
 {
 	delete child;
 	m_displayList.erase(std::remove(m_displayList.begin(), m_displayList.end(), child), m_displayList.end());
@@ -54,7 +54,7 @@ int Scene::numberOfChildren() const
 	return m_displayList.size();
 }
 
-bool Scene::sortObjects(DisplayObject* left, DisplayObject* right)
+bool Scene::sortObjects(DisplayObject * left, DisplayObject * right)
 {
 	/*
 	 * First check if they have the same enabled status, if they have the same enabled status,
@@ -65,11 +65,11 @@ bool Scene::sortObjects(DisplayObject* left, DisplayObject* right)
 	 * This will effectively sort by layer indices, and move disabled elements to the end of the list
 	 */
 	return
-		(left->isEnabled() == right->isEnabled()) ? 
-			(left->m_layerIndex== right->m_layerIndex ?
-				left->m_layerOrderIndex < right->m_layerOrderIndex :
-				left->m_layerIndex < right->m_layerIndex) :
-			left->isEnabled();                           
+		(left->isEnabled() == right->isEnabled()) ?
+		(left->m_layerIndex == right->m_layerIndex ?
+			left->m_layerOrderIndex < right->m_layerOrderIndex :
+			left->m_layerIndex < right->m_layerIndex) :
+		left->isEnabled();
 }
 
 void Scene::updateDisplayList()
@@ -83,7 +83,7 @@ void Scene::updateDisplayList()
 				break;
 			count->update();
 		}
-	}	
+	}
 }
 
 void Scene::drawDisplayList()

@@ -20,7 +20,7 @@ public:
 	// setters
 	void addFrame(const Frame& frame);
 	void setTexture(SDL_Texture* texture);
-	
+
 private:
 	std::string m_name;
 

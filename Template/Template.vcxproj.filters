@@ -330,8 +330,5 @@
     <Text Include="..\src\Tiledata.txt">
       <Filter>Tile</Filter>
     </Text>
-    <Text Include="..\src\备注需更改事物.txt">
-      <Filter>Scenes</Filter>
-    </Text>
   </ItemGroup>
 </Project>

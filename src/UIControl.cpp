@@ -2,7 +2,7 @@
 #include "CollisionManager.h"
 #include "EventManager.h"
 
-UIControl::UIControl():
+UIControl::UIControl() :
 	m_mouseOver(false), m_mouseOverActive(false), m_mouseOutActive(false), m_leftMouseButtonClicked(false)
 {
 }
@@ -10,7 +10,7 @@ UIControl::UIControl():
 UIControl::~UIControl()
 = default;
 
-bool UIControl::addEventListener(const Event event, const EventHandler& handler)
+bool UIControl::addEventListener(const Event event, const EventHandler & handler)
 {
 	if (m_eventExists(event))
 	{
@@ -29,7 +29,7 @@ UIControl::EventHandler UIControl::getEventHandler(Event event)
 void UIControl::onMouseOver()
 {
 	const auto mousePosition = EventManager::Instance().getMousePosition();
-	
+
 	if (CollisionManager::pointRectCheck(mousePosition, getTransform()->position, getWidth(), getHeight()))
 	{
 		m_mouseOver = true;

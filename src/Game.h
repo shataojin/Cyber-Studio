@@ -23,7 +23,7 @@
 class Game
 {
 public:
-	
+
 	static Game* Instance()
 	{
 		if (s_pInstance == nullptr)
@@ -55,7 +55,9 @@ public:
 
 	bool isRunning() const;
 	void changeSceneState(SceneState new_state);
-	
+	int AInumebr = 2;
+	int wallnumber = 20;
+	int round = 0;
 private:
 	Game();
 	~Game();

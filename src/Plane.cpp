@@ -5,7 +5,7 @@ Plane::Plane()
 {
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png", 
+		"../Assets/sprites/atlas.png",
 		"spritesheet");
 
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));

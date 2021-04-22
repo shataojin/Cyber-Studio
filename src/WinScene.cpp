@@ -7,6 +7,10 @@
 WinScene::WinScene()
 {
 	WinScene::start();
+	SoundManager::Instance().load("../Assets/audio/win.mp3", "WBgm", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("WBgm", 0, 0);
+	SoundManager::Instance().setMusicVolume(100);
+	SoundManager::Instance().setSoundVolume(20);
 }
 
 WinScene::~WinScene()
@@ -14,6 +18,7 @@ WinScene::~WinScene()
 
 void WinScene::draw()
 {
+	TextureManager::Instance()->draw("winbgp", 400, 300, 0, 255, true);
 	drawDisplayList();
 }
 
@@ -48,7 +53,7 @@ void WinScene::handleEvents()
 
 void WinScene::start()
 {
-	TextureManager::Instance()->load("../Assets/textures/background.png", "background");
+	TextureManager::Instance()->load("../Assets/textures/winbgp.jpg", "winbgp");
 	const SDL_Color blue = { 0, 0, 255, 255 };
 	m_label = new Label("GG", "Dock51", 80, blue, glm::vec2(400.0f, 100.0f));
 	m_label->setParent(this);
@@ -95,7 +100,7 @@ void WinScene::start()
 		});
 
 	addChild(m_nextButton);
-	
+
 	// exit button
 	m_exitbutton = new Button("../Assets/textures/QuitButton.png", "quit");
 	m_exitbutton->getTransform()->position = glm::vec2(400.0f, 400.0f);

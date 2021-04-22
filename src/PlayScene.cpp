@@ -32,13 +32,13 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
-	if(EventManager::Instance().isIMGUIActive())
+	if (EventManager::Instance().isIMGUIActive())
 	{
 		GUI_Function();
 	}
 	//TextureManager::Instance()->draw("bgp", 400, 300, 0, 255, true);
 	drawDisplayList();
-	
+
 	//SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
 }
 
@@ -47,32 +47,50 @@ void PlayScene::update()
 	auto deltaTime = TheGame::Instance()->getDeltaTime();
 	updateDisplayList();
 
-	
+
 	//TODO 墙与玩家碰撞。
-	/*
-	for (int i = 0; i < 20; i++)
-	{for(int x=0;x<5;x++){
-		if (CollisionManager::CircleAABBarea(m_field[i], m_pLineSpaceShipx[x])){
-			*/
-	
-	
-	
+
+	for (int i = 0; i < 20; i++) {
+
+		if (CollisionManager::circleAABBCheck(m_field[i], m_pPlayer)) {
+
+			float X_right = m_field[i]->getTransform()->position.x - m_pPlayer->getTransform()->position.x;
+			float X_left = m_pPlayer->getTransform()->position.x - m_field[i]->getTransform()->position.x;
+			float Y_down = m_field[i]->getTransform()->position.y - m_pPlayer->getTransform()->position.y;
+			float Y_top = m_pPlayer->getTransform()->position.y - m_field[i]->getTransform()->position.y;
+
+			if ((X_right > X_left) && (X_right > Y_down) && (X_right > Y_top))
+				m_pPlayer->getTransform()->position -= glm::vec2(5.0f, 0.0f);
+			else if ((X_left > X_right) && (X_left > Y_down) && (X_left > Y_top))
+				m_pPlayer->getTransform()->position -= glm::vec2(-5.0f, 0.0f);
+			if ((Y_down > X_right) && (Y_down > X_left) && (Y_down > Y_top))
+				m_pPlayer->getTransform()->position -= glm::vec2(0.0f, 5.0f);
+			else if ((Y_top > X_right) && (Y_top > X_left) && (Y_top > Y_down))
+				m_pPlayer->getTransform()->position -= glm::vec2(0.0f, -5.0f);
+		}
+	}
 
 
-	
+
+
+
+
+
+
 
 	for (auto i = 0; i < 5; i++) {
 		//m_pLineSpaceShip[i]->setDestination(m_pPlayer->getTransform()->position);
 		if (CollisionManager::circleAABBCheck(m_pPlayer, m_pLineSpaceShip[i]))
 		{
 			SoundManager::Instance().playSound("Died", 0, -1);
-			std::cout << "Collision" << std::endl;
+			std::cout << "Collision" << std::endl << std::endl;
 			m_pPlayer->setEnabled(false);
 			m_pSpaceShip[i]->setEnabled(false);
 			m_pLineSpaceShip[i]->setEnabled(false);
 			m_pLineSpaceShipx[i]->setEnabled(false);
 			m_field[i]->setEnabled(false);
 			m_pDeadLabel->setEnabled(true);
+			std::cout << "m_pLineSpaceShip die" << std::endl << std::endl;
 		}
 	}
 
@@ -81,41 +99,44 @@ void PlayScene::update()
 		if (CollisionManager::circleAABBCheck(m_pPlayer, m_pLineSpaceShipx[i]))
 		{
 			SoundManager::Instance().playSound("Died", 0, -1);
-			std::cout << "Collision" << std::endl;
+			std::cout << "Collision" << std::endl << std::endl;
 			m_pPlayer->setEnabled(false);
 			m_pSpaceShip[i]->setEnabled(false);
 			m_pLineSpaceShip[i]->setEnabled(false);
 			m_pLineSpaceShipx[i]->setEnabled(false);
 			m_field[i]->setEnabled(false);
 			m_pDeadLabel->setEnabled(true);
+			std::cout << "m_pLineSpaceShipx die" << std::endl << std::endl;
 		}
 	}
-	
 
-	
-		for (auto i = 0; i < 5; i++) {
-			m_pSpaceShip[i]->setDestination(m_pPlayer->getTransform()->position);
-			if (CollisionManager::circleAABBCheck(m_pPlayer, m_pSpaceShip[i]))
-			{
-				SoundManager::Instance().playSound("Died", 0, -1);
-				std::cout << "Collision" << std::endl;
-				m_pPlayer->setEnabled(false);
-				m_pSpaceShip[i]->setEnabled(false);
-				m_pLineSpaceShip[i]->setEnabled(false);
-				m_pLineSpaceShipx[i]->setEnabled(false);
-				m_field[i]->setEnabled(false);
-				m_pDeadLabel->setEnabled(true);
-			}
+
+
+	for (auto i = 0; i < 5; i++) {
+		m_pSpaceShip[i]->setDestination(m_pPlayer->getTransform()->position);
+		if (CollisionManager::circleAABBCheck(m_pPlayer, m_pSpaceShip[i]))
+		{
+			SoundManager::Instance().playSound("Died", 0, -1);
+			std::cout << "Collision" << std::endl << std::endl;
+			m_pPlayer->setEnabled(false);
+			m_pSpaceShip[i]->setEnabled(false);
+			m_pLineSpaceShip[i]->setEnabled(false);
+			m_pLineSpaceShipx[i]->setEnabled(false);
+			m_field[i]->setEnabled(false);
+			m_pDeadLabel->setEnabled(true);
+			std::cout << "m_pSpaceShip die" << std::endl << std::endl;
 		}
+	}
 
-	
-	if(CollisionManager::AABBCheck(m_pPlayer, m_pTarget))
+
+	if (CollisionManager::AABBCheck(m_pPlayer, m_pTarget))
 	{
 		m_pTarget->setEnabled(false);
 		m_pWinLabel->setEnabled(true);
+		std::cout << std::endl << "m_pTarget die" << std::endl << std::endl;
 	}
 
-	if (m_pPlayer->getTransform()->position.x>=800.0f)
+	if (m_pPlayer->getTransform()->position.x >= 800.0f)
 		m_pPlayer->getTransform()->position -= glm::vec2(5.0f, 0.0f);
 	else if (m_pPlayer->getTransform()->position.x <= 0.0f)
 		m_pPlayer->getTransform()->position -= glm::vec2(-5.0f, 0.0f);
@@ -125,7 +146,20 @@ void PlayScene::update()
 		m_pPlayer->getTransform()->position -= glm::vec2(0.0f, -5.0f);
 
 
-	
+	//not working and no effect 
+	for (int i = 0; i < 5; i++)
+	{
+		if (m_pLineSpaceShipx[i]->getTransform()->position.x >= 800.0f || m_pLineSpaceShipx[i]->getTransform()->position.x <= 0.0f
+			|| m_pLineSpaceShipx[i]->getTransform()->position.y >= 600.0f || m_pLineSpaceShipx[i]->getTransform()->position.y <= 0.0f)
+		{
+			m_pLineSpaceShipx[i - 1] = new linemoveTT;
+		}
+	}
+
+
+
+
+
 
 }
 
@@ -139,21 +173,21 @@ void PlayScene::handleEvents()
 
 
 
-	
+
 	//shoot
 	if (EventManager::Instance().getMouseButton(0))
 	{
 		if (m_pPlayer->isEnabled() == true)
 		{
 			m_pBullet.push_back(new Bullet(m_pPlayer->m_rotationAngle, m_pPlayer->getTransform()->position, true));
-			addChild(m_pBullet[TotalBullets]);
+			//addChild(m_pBullet[TotalBullets]);
 			TotalBullets++;
 		}
 	}
 
 
 
-	
+
 	if (SDL_NumJoysticks() < 1)
 	{
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
@@ -197,23 +231,29 @@ void PlayScene::handleEvents()
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
+		PlayScene::clean();
 		TheGame::Instance()->quit();
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
 	{
+		PlayScene::clean();
 		TheGame::Instance()->changeSceneState(START_SCENE);
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
+		PlayScene::clean();
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+
+	/*
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_3))
 	{
 		PlayScene::clean();
 		PlayScene::start();
-	}
+	}*/
+
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_0))
 	{
 		PlayScene::start();
@@ -246,173 +286,169 @@ void PlayScene::handleEvents()
 	}
 	if (m_pTarget->isEnabled() == false)
 	{
-		TheGame::Instance()->changeSceneState(WIN_SCENES);
-	}
-	for (int i = 0; i < 20; i++)
-	{
-		for (int x = 0; x < 5; x++) {
-
-			if (m_field[i]->getTransform()->position == m_pSpaceShip[x]->getTransform()->position)
-			{
-				m_pSpaceShip[x - 1] = new SpaceShip();
-			}
-			if (m_field[i]->getTransform()->position == m_pLineSpaceShip[x]->getTransform()->position)
-			{
-				m_pLineSpaceShip[x - 1] = new LineMoveE();
-			}
-			if (m_field[i]->getTransform()->position == m_pLineSpaceShipx[x]->getTransform()->position)
-			{
-				m_pLineSpaceShipx[x - 1] = new linemoveTT();
-			}
-			if (m_field[i]->getTransform()->position == m_pPlayer->getTransform()->position)
-			{
-				m_field[x - 1] = new TileC("../Assets/grid/Wall.png", "w");
-			}
-
-
-			if (m_pPlayer->getTransform()->position == m_pSpaceShip[x]->getTransform()->position)
-			{
-				m_pSpaceShip[x - 1] = new SpaceShip();
-			}
-			if (m_pPlayer->getTransform()->position == m_pLineSpaceShip[x]->getTransform()->position)
-			{
-				m_pLineSpaceShip[x - 1] = new LineMoveE();
-			}
-			if (m_pPlayer->getTransform()->position == m_pLineSpaceShipx[x]->getTransform()->position)
-			{
-				m_pLineSpaceShipx[x - 1] = new linemoveTT();
-			}
-
-
-
-			//TODO 无法检查和上一个障碍物位置是否一致
-			/*
-			if(m_field[i]->getTransform()->position == m_field[i - 1]->getTransform()->position)
-			{
-				m_field[i - 1] = new TileC("../Assets/grid/Wall.png", "w");
-			}
-			*/
-
-			/*
-			for (int i = 0; i < 20; i++)
-			{
-				for (int x = 0; x < 5; x++)
-				{
-					const float speed = 3.0f;
-					if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f)
-					{
-
-						m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
-
-
-					}
-					if (m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f)
-					{
-						m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
-
-					}
-
-					if (m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f)
-					{
-
-						m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
-
-					}
-					if (m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f)
-					{
-
-						m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
-					}
-				}
-			}
+		/*计算回合不能
+		m_RoundCounter-> winround == true;
+		*/
+		if (Game::Instance()->round >= 0 && Game::Instance()->round <= 2)
+		{
+			Game::Instance()->round++;
+			std::cout << "round numebr is : " << Game::Instance()->round << std::endl;
+			TheGame::Instance()->changeSceneState(WIN_SCENES);
+		}
+		else if (Game::Instance()->round = 3)
+		{
+			std::cout << "round numebr is : " << Game::Instance()->round << std::endl;
+			TheGame::Instance()->changeSceneState(END_SCENE);
 		}
 
-
-					*/
-
+	}
 
 
 
-					/*
-					if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f || m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f ||
-						m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f || m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f ||
-						CollisionManager::CircleAABBarea(m_field[i], m_pLineSpaceShipx[x]))
-					{
-						const float speed = 1.0f;
-						int MD = rand() % 4 + 1;
-						switch (MD)
-						{
-						case 1:m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
-							break;
-						case 2:m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
-							break;
-						case 3:m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
-							break;
-						case 4:m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
-							break;
-						}
-					}
-					*/
-					/*
-					for (int i = 0; i < 20; i++)
-					{
-						for (int x = 0; x < 5; x++)
-						{
-							const float speed = 1.0f;
-							int MD = rand() % 4 + 1;
-							if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f || m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f ||
-								m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f || m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f ||
-								CollisionManager::CircleAABBarea(m_field[i], m_pLineSpaceShipx[x])) {
-								if (MD = 1) {
-									m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
-								}
-								else if (MD = 2) {
-									m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
-								}
-								else if (MD = 3) {
-									m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
-								}
-								else if (MD = 4) {
-									m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
-								}
-							}
-						}
-					}
-				}*/
+
+
+	//TODO 无法检查和上一个障碍物位置是否一致
+	/*
+	if(m_field[i]->getTransform()->position == m_field[i - 1]->getTransform()->position)
+	{
+		m_field[i - 1] = new TileC("../Assets/grid/Wall.png", "w");
+	}
+	*/
+
+	/*
+	for (int i = 0; i < 20; i++)
+	{
+		for (int x = 0; x < 5; x++)
+		{
+			const float speed = 3.0f;
+			if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f)
+			{
+
+				m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
+
+
+			}
+			if (m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f)
+			{
+				m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
+
+			}
+
+			if (m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f)
+			{
+
+				m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
+
+			}
+			if (m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f)
+			{
+
+				m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
+			}
 		}
 	}
 }
 
 
-						
-			
+			*/
+
+
+
+
+			/*
+			if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f || m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f ||
+				m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f || m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f ||
+				CollisionManager::CircleAABBarea(m_field[i], m_pLineSpaceShipx[x]))
+			{
+				const float speed = 1.0f;
+				int MD = rand() % 4 + 1;
+				switch (MD)
+				{
+				case 1:m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
+					break;
+				case 2:m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
+					break;
+				case 3:m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
+					break;
+				case 4:m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
+					break;
+				}
+			}
+			*/
+			/*
+			for (int i = 0; i < 20; i++)
+			{
+				for (int x = 0; x < 5; x++)
+				{
+					const float speed = 1.0f;
+					int MD = rand() % 4 + 1;
+					if (m_pLineSpaceShipx[x]->getTransform()->position.x >= 800.0f || m_pLineSpaceShipx[x]->getTransform()->position.x <= 0.0f ||
+						m_pLineSpaceShipx[x]->getTransform()->position.y >= 600.0f || m_pLineSpaceShipx[x]->getTransform()->position.y <= 0.0f ||
+						CollisionManager::CircleAABBarea(m_field[i], m_pLineSpaceShipx[x])) {
+						if (MD = 1) {
+							m_pLineSpaceShipx[x]->getTransform()->position.x += speed;
+						}
+						else if (MD = 2) {
+							m_pLineSpaceShipx[x]->getTransform()->position.x -= speed;
+						}
+						else if (MD = 3) {
+							m_pLineSpaceShipx[x]->getTransform()->position.y += speed;
+						}
+						else if (MD = 4) {
+							m_pLineSpaceShipx[x]->getTransform()->position.y -= speed;
+						}
+					}
+				}
+			}
+		}*/
+
+		/*
+		for(int i=0;i<20;i++)
+		{
+			if(m_pTarget->getTransform()->position== m_field[i]->getTransform()->position)
+			{
+				Target* currentTargetLocaltion = m_pTarget;
+				delete currentTargetLocaltion;
+				currentTargetLocaltion = nullptr;
+				m_pTarget = new Target;
+			}
+		}
+		*/
+
+}
+
+
+
+
+
 
 void PlayScene::start()
 {
+	int ainumber = 5 + Game::Instance()->round;
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 	//TextureManager::Instance()->load("../Assets/textures/bgp.png", "bgp");
-	
+
 	auto offsetTiles1 = glm::vec2(Config::TILE_SIZE * 0.5f, Config::TILE_SIZE * 0.5f);
-	
-	
+
+
 	m_buildGrid();
-	
-	Background= new TileC("../Assets/textures/bgppc.png", "bgppc");
+
+	Background = new TileC("../Assets/textures/bgppc.png", "bgppc");
 	Background->getTransform()->position.x = 800.0f / 2;
 	Background->getTransform()->position.y = 600.0f / 2;
 	addChild(Background, 0);
-	
+
 	for (int i = 0; i < 20; i++)
 	{
-		int RLT_x = rand() % 20;
+		int RLT_x = rand() % 18;
 		int RLT_y = rand() % 15;
 		m_field[i] = new TileC("../Assets/textures/Wall.png", "wall");
 		m_field[i]->getTransform()->position = m_getTile(RLT_x, RLT_y)->getTransform()->position + offsetTiles1;
 		addChild(m_field[i], 2);
 		m_pMap.push_back(m_field[i]);
 	}
-	
+
 	/*
 	for (int RLT_x = rand() % 39)
 	{
@@ -443,23 +479,23 @@ void PlayScene::start()
 			addChild(m_field[5], 1);
 			m_pMap.push_back(m_field[5]);
 		}
-		
+
 	}
 	*/
 
 
 
-	
+
 	m_pTarget = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(OBJL_x, OBJL_y);
-	addChild(m_pTarget, 1);
+	m_pTarget->getTransform()->position = glm::vec2(TargetL_x, TargetL_y);
+	addChild(m_pTarget, 2);
 
 	m_pPlayer = new Player();
 	m_pPlayer->getTransform()->position = glm::vec2(50.0f, 300.0f);
 	addChild(m_pPlayer, 2);
 	m_playerFacingRight = true;
 	//理念为与玩家绑定得一个OBJ+无移动速度得追逐鼠标。
-	
+
 	/*
 	m_pPlayerGun = new playerGun();
 	m_pPlayerGun ->getTranaform()->position = glm::vec2(100.0f, 300.0f);
@@ -467,7 +503,7 @@ void PlayScene::start()
 	m_pPlayerGun->setDestination()->destination= GetCursorPos;
 	addChild(m_pPlayerGun);
 	*/
-	
+
 	// instantiating spaceship
 
 	/*
@@ -478,20 +514,20 @@ void PlayScene::start()
 		addChild(m_pSpaceShip[i]);
 	}
 	*/
-	for(int i=0;i<5;i++)
+	for (int i = 0; i < ainumber; i++)
 	{
-		int RL_x = (rand() % 19 + 5) * 40;
+		int RL_x = (rand() % 19 + 6) * 40;
 		int RL_y = (rand() % 14 + 5) * 40;
 		m_pSpaceShip[i] = new SpaceShip();
 		m_pSpaceShip[i]->getTransform()->position = glm::vec2(RL_x, RL_y);
-		addChild(m_pSpaceShip[i], 3);
+		addChild(m_pSpaceShip[i], 4);
 	}
 
 	/*
 	m_pSpaceShip[0] = new SpaceShip();
 	m_pSpaceShip[0]->getTransform()->position = glm::vec2(700.0f, 100.0f);
 	addChild(m_pSpaceShip[0]);
-	
+
 	m_pSpaceShip[1] = new SpaceShip();
 	m_pSpaceShip[1]->getTransform()->position = glm::vec2(500.0f, 200.0f);
 	addChild(m_pSpaceShip[1]);
@@ -508,16 +544,16 @@ void PlayScene::start()
 	m_pSpaceShip[4]->getTransform()->position = glm::vec2(400.0f, 100.0f);
 	addChild(m_pSpaceShip[4]);
 	*/
-	
+
 	//instantiating ship
 	//静止敌人
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < ainumber; i++)
 	{
-		int RL_x = (rand() % 19 + 1) * 40 - 20;
+		int RL_x = (rand() % 18 + 4) * 40 - 20;
 		int RL_y = (rand() % 14 + 1) * 40 - 20;
 		m_pLineSpaceShip[i] = new LineMoveE();
 		m_pLineSpaceShip[i]->getTransform()->position = glm::vec2(RL_x, RL_y);
-		addChild(m_pLineSpaceShip[i], 3);
+		addChild(m_pLineSpaceShip[i], 4);
 	}
 	/*
 	m_pLineSpaceShip[0] = new LineMoveE();
@@ -537,13 +573,13 @@ void PlayScene::start()
 	addChild(m_pLineSpaceShip[4]);
 	*/
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < ainumber; i++)
 	{
 		int RL_x = (rand() % 19 + 5) * 40;
 		int RL_y = (rand() % 14 + 5) * 40;
 		m_pLineSpaceShipx[i] = new linemoveTT();
 		m_pLineSpaceShipx[i]->getTransform()->position = glm::vec2(RL_y, RL_x);
-		addChild(m_pLineSpaceShipx[i], 3);
+		addChild(m_pLineSpaceShipx[i], 4);
 	}
 	/*
 	m_pLineSpaceShipx[0] = new linemoveTT();
@@ -562,7 +598,7 @@ void PlayScene::start()
 	m_pLineSpaceShipx[4]->getTransform()->position = glm::vec2(300.0f, 70.0f);
 	addChild(m_pLineSpaceShipx[4]);
 	*/
-	
+
 	/* Instructions Label */
 	m_pInstructionsLabel = new Label("WASD control", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 10.0f);
@@ -683,7 +719,7 @@ void PlayScene::m_computeTileCosts()
 	for (auto tile : m_pGrid)
 	{
 		auto distance = Util::distance(m_pTarget->getGridPosition(), tile->getGridPosition());
-		tile->setTileCost(distance);
+		//tile->setTileCost(distance);
 	}
 }
 
@@ -691,52 +727,52 @@ void PlayScene::m_computeTileCosts()
 
 void PlayScene::GUI_Function() const
 {
-/*	// Always open with a NewFrame
-	ImGui::NewFrame();
+	/*	// Always open with a NewFrame
+		ImGui::NewFrame();
 
-	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
-	//ImGui::ShowDemoWindow();
-	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+		// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
+		//ImGui::ShowDemoWindow();
 
-	static float speed = 10.0f;
-	if(ImGui::SliderFloat("MaxSpeed", &speed, 0.0f, 100.0f))
-	{
-		m_pSpaceShip->setMaxSpeed(speed);
-	}
+		ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
-	static float angleInRadians = m_pSpaceShip->getRotation();
-	if(ImGui::SliderAngle("Orientation Angle", &angleInRadians))
-	{
-		m_pSpaceShip->setRotation(angleInRadians * Util::Rad2Deg);
-	}
-	
-	if(ImGui::Button("Start"))
-	{
-		m_pSpaceShip->setEnabled(true);
-	}
+		static float speed = 10.0f;
+		if(ImGui::SliderFloat("MaxSpeed", &speed, 0.0f, 100.0f))
+		{
+			m_pSpaceShip->setMaxSpeed(speed);
+		}
 
-	ImGui::SameLine();
-	
-	if (ImGui::Button("Reset"))
-	{
-		m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 100.0f);
-		m_pSpaceShip->setEnabled(false);
-	}
+		static float angleInRadians = m_pSpaceShip->getRotation();
+		if(ImGui::SliderAngle("Orientation Angle", &angleInRadians))
+		{
+			m_pSpaceShip->setRotation(angleInRadians * Util::Rad2Deg);
+		}
 
-	ImGui::Separator();
+		if(ImGui::Button("Start"))
+		{
+			m_pSpaceShip->setEnabled(true);
+		}
 
-	static float targetPosition[2] = { m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
-	if(ImGui::SliderFloat2("Target", targetPosition, 0.0f, 800.0f))
-	{
-		m_pTarget->getTransform()->position = glm::vec2(targetPosition[0], targetPosition[1]);
-//		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
-	}
+		ImGui::SameLine();
 
-	ImGui::End();
+		if (ImGui::Button("Reset"))
+		{
+			m_pSpaceShip->getTransform()->position = glm::vec2(100.0f, 100.0f);
+			m_pSpaceShip->setEnabled(false);
+		}
 
-	// Don't Remove this
-	ImGui::Render();
-	ImGuiSDL::Render(ImGui::GetDrawData());
-	ImGui::StyleColorsDark();*/
+		ImGui::Separator();
+
+		static float targetPosition[2] = { m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
+		if(ImGui::SliderFloat2("Target", targetPosition, 0.0f, 800.0f))
+		{
+			m_pTarget->getTransform()->position = glm::vec2(targetPosition[0], targetPosition[1]);
+	//		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		}
+
+		ImGui::End();
+
+		// Don't Remove this
+		ImGui::Render();
+		ImGuiSDL::Render(ImGui::GetDrawData());
+		ImGui::StyleColorsDark();*/
 }

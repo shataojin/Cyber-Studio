@@ -2,20 +2,20 @@
 #include "TextureManager.h"
 #include "Util.h"
 
-Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
+Player::Player() : m_currentAnimationState(PLAYER_IDLE_RIGHT)
 {
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png", 
+		"../Assets/sprites/player.png",
 		"spritesheet");
 
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
-	
+
 	// set frame width
-	setWidth(53);
+	setWidth(30);
 
 	// set frame height
-	setHeight(58);
+	setHeight(30);
 
 	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -35,7 +35,7 @@ void Player::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the player according to animation state
-	switch(m_currentAnimationState)
+	switch (m_currentAnimationState)
 	{
 	case PLAYER_IDLE_RIGHT:
 		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("idle"),
@@ -58,14 +58,14 @@ void Player::draw()
 			x, y, 0.12f, 0, 255, true);
 		break;
 	}
-	
+
 }
 
 
 
 void Player::update()
 {
-	if(m_currentAnimationState == PLAYER_RUN_RIGHT)
+	if (m_currentAnimationState == PLAYER_RUN_RIGHT)
 	{
 		getTransform()->position += glm::vec2(5.0f, 0.0f);
 	}
@@ -86,7 +86,7 @@ void Player::update()
 	}
 }
 
-void Player:: CollisionWall()
+void Player::CollisionWall()
 {
 	if (m_currentAnimationState == PLAYER_RUN_RIGHT)
 	{

@@ -20,7 +20,7 @@ public:
 	void turnLeft();
 	void moveForward();
 	void moveBack();
-	
+
 	void move();
 
 	// getters

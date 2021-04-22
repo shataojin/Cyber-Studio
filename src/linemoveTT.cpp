@@ -13,7 +13,7 @@ linemoveTT::linemoveTT()
 	setWidth(size.x);
 	setHeight(size.y);
 
-	getTransform()->position = glm::vec2(500.0f, 500.0f);
+	getTransform()->position = glm::vec2(850.0f, 650.0f);
 	setType(LINE_MOVE_TT);
 	getRigidBody()->isColliding = false;
 }
@@ -23,7 +23,7 @@ linemoveTT::~linemoveTT()
 
 void linemoveTT::draw()
 {
-	TextureManager::Instance()->draw("drone", 
+	TextureManager::Instance()->draw("drone",
 		getTransform()->position.x, getTransform()->position.y, 0, 255, true);
 }
 
@@ -70,13 +70,13 @@ void linemoveTT::handleEvents()
 	*/
 	switch (MD)
 	{
-	case 1:getTransform()->position.x += speed;
+	case 1:getTransform()->position += glm::vec2(1.0f, 0.0f);
 		break;
-	case 2:getTransform()->position.x -= speed;
+	case 2:getTransform()->position += glm::vec2(-1.0f, 0.0f);
 		break;
-	case 3:getTransform()->position.y += speed;
+	case 3:getTransform()->position += glm::vec2(0.0f, 1.0f);
 		break;
-	case 4:getTransform()->position.y -= speed;
+	case 4:getTransform()->position += glm::vec2(0.0f, -1.0f);
 		break;
 	}
 }
@@ -99,39 +99,39 @@ void linemoveTT::random()
 }
 void linemoveTT::update()
 {
-	
+
 	switch (MD)
 	{
-	case 1:getTransform()->position.x += speed;
+	case 1:getTransform()->position += glm::vec2(1.0f, 0.0f);
 		break;
-	case 2:getTransform()->position.x -= speed;
+	case 2:getTransform()->position += glm::vec2(-1.0f, 0.0f);
 		break;
-	case 3:getTransform()->position.y += speed;
+	case 3:getTransform()->position += glm::vec2(0.0f, 1.0f);
 		break;
-	case 4:getTransform()->position.y -= speed;
+	case 4:getTransform()->position += glm::vec2(0.0f, -1.0f);
 		break;
 	}
 
-	if (getTransform()->position.y += speed)
+	if (getTransform()->position.y++)
 	{
 		moveup == true;
-		if(getTransform()->position.y == 580)
+		if (getTransform()->position.y == 580)
 		{
 			moveup = false;
 		}
 	}
 
 
-	if (getTransform()->position.y -= speed)
+	if (getTransform()->position.y--)
 	{
 		moveup == false;
-		if (getTransform()->position.y ==20)
+		if (getTransform()->position.y == 20)
 		{
 			moveup = true;
 		}
 	}
 
-	if (getTransform()->position.x += speed)
+	if (getTransform()->position.x++)
 	{
 		moveright = true;
 		if (getTransform()->position.x == 780)
@@ -141,33 +141,34 @@ void linemoveTT::update()
 	}
 
 
-	if (getTransform()->position.x -= speed)
+	if (getTransform()->position.x--)
 	{
 		moveright = false;
-		if (getTransform()->position.x ==20)
+		if (getTransform()->position.x == 20)
 		{
 			moveright = true;
 		}
 	}
 
-	
-if(moveup == true)
-{
-	getTransform()->position.y += speed;
+
+	if (moveup == true)
+	{
+		getTransform()->position += glm::vec2(0.5f, 0.0f);
+	}
+	else if (moveup == false)
+	{
+		getTransform()->position += glm::vec2(-0.5f, 0.0f);
+	}
+	if (moveright == true)
+	{
+		getTransform()->position += glm::vec2(0.0f, 0.5f);
+	}
+	else if (moveright == false)
+	{
+		getTransform()->position += glm::vec2(0.0f, -0.5f);
+	}
 }
-else if (moveup == false)
-{
-	getTransform()->position.y -= speed;
-}
-if (moveright == true)
-{
-	getTransform()->position.x -= speed;
-}
-else if (moveright == false)
-{
-	getTransform()->position.x += speed;
-}
-}
+
 
 void  linemoveTT::clean()
 {

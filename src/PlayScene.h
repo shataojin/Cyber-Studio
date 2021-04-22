@@ -18,6 +18,7 @@
 #include "linemoveTT.h"
 #include "playerGun.h"
 
+
 #define ROWS 48
 #define COLS 64
 
@@ -34,14 +35,17 @@ public:
 	virtual void handleEvents() override;
 	virtual void start() override;
 	int TotalBullets = 0;
-	
+
 private:
+
+	int round = 0;
 	// IMGUI Function
 	void GUI_Function() const;
 	std::string m_guiTitle;
-	
+
 	glm::vec2 m_mousePosition;
 
+	//Counter* m_RoundCounter;
 	SpaceShip* m_pSpaceShip[10];
 	LineMoveE* m_pLineSpaceShip[10];
 	linemoveTT* m_pLineSpaceShipx[10];
@@ -50,7 +54,8 @@ private:
 	playerGun* m_pPlayerGun;
 	bool m_playerFacingRight;
 	bool m_player;
-	
+
+
 	// UI Items
 	Label* m_pInstructionsLabel;
 	Label* m_pDeadLabel;
@@ -62,12 +67,13 @@ private:
 	std::vector<std::vector<Tile*>> m_level;
 	TileC* Background;
 	TileC* m_field[30];
-	
-	
-	int OBJL_x = (rand() % 19 + 5) * 40 - 20;
-	int OBJL_y = (rand() % 14 + 1) * 40 - 20;
-	
-	
+
+	int TargetL_x = 19 * 40 - 20;
+	int TargetL_y = (rand() % 12 + 2) * 40 - 20;
+	int OBJL_x = (rand() % 19 + 6) * 40 - 20;
+	int OBJL_y = (rand() % 13 + 1) * 40 - 20;
+
+
 	//PlatformPlayer* m_pPlayer;或许用到玩家上
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	Tile* m_getTile(int col, int row) const;

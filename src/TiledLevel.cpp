@@ -20,8 +20,8 @@ void TileC::draw()
 	TextureManager::Instance()->draw(m_key, getTransform()->position.x, getTransform()->position.y, 0, 255, true);
 }
 
-TiledLevel::TiledLevel(const unsigned short column, const unsigned short row, 
-                       const char* tileData, const char* levelData, const char* tileKey) :m_row(row), m_col(column), m_tileKey(tileKey)
+TiledLevel::TiledLevel(const unsigned short column, const unsigned short row,
+	const char* tileData, const char* levelData, const char* tileKey) :m_row(row), m_col(column), m_tileKey(tileKey)
 {
 	auto size = Config::TILE_SIZE;
 	//auto size = Config::TILE_SIZE;

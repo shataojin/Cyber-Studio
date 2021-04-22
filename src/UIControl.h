@@ -13,7 +13,7 @@ class UIControl : public DisplayObject
 public:
 	UIControl();
 	virtual ~UIControl();
-	
+
 	virtual void draw() = 0;
 	virtual void update() = 0;
 	virtual void clean() = 0;
@@ -22,7 +22,7 @@ public:
 	bool addEventListener(Event event, const EventHandler& handler);
 
 	EventHandler getEventHandler(Event event);
-	
+
 protected:
 	void onMouseOver();
 	void onMouseOut();
@@ -35,7 +35,7 @@ private:
 	bool m_mouseOver;
 	bool m_mouseOverActive;
 	bool m_mouseOutActive;
-	
+
 	bool m_leftMouseButtonClicked;
 
 	// event structure

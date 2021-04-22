@@ -258,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\src\Tiledata.txt" />
-    <Text Include="..\src\备注需更改事物.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

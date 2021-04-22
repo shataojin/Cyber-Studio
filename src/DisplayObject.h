@@ -34,7 +34,7 @@ public:
 	 * @param new_order The order within the layer, default is zero
 	 */
 	void setLayerIndex(uint32_t new_index, const uint32_t new_order = 0);
-	
+
 
 private:
 	friend class Scene;

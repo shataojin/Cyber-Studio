@@ -10,7 +10,7 @@ class Renderer
 public:
 	static Renderer* Instance()
 	{
-		if(s_pInstance == nullptr)
+		if (s_pInstance == nullptr)
 		{
 			s_pInstance = new Renderer();
 		}
@@ -20,7 +20,7 @@ public:
 	// getters and setters
 	SDL_Renderer* getRenderer();
 	void setRenderer(std::shared_ptr<SDL_Renderer> renderer);
-	
+
 private:
 	Renderer();
 	~Renderer();

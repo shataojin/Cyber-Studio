@@ -6,7 +6,7 @@ DisplayObject::DisplayObject()
 DisplayObject::~DisplayObject()
 = default;
 
-Scene * DisplayObject::getParent() const
+Scene* DisplayObject::getParent() const
 {
 	return m_pParentScene;
 }

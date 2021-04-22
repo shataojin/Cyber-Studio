@@ -29,7 +29,7 @@ Bullet::Bullet(float rotation, glm::vec2 position, bool enable)
 	getRigidBody()->isColliding = false;
 	setType(BULLET);
 	setRotation(rotation);
-	
+
 }
 
 Bullet::~Bullet()
